@@ -15,10 +15,17 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
+    signingConfigs {
+        getByName("debug") {
+            enableV1Signing = true
+            enableV2Signing = true
+        }
+    }
+
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.chithibox.chithi_app"
-        // Target Android 5.0 (API 21 - Lollipop) and above
+        // Target Android 5.0 (API 21 - Lollipop), Android 6.0.1 (API 23 - Marshmallow) and above
         minSdk = 21
         targetSdk = flutter.targetSdkVersion
         multiDexEnabled = true
@@ -28,12 +35,15 @@ android {
         // flag during build.
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+
+        ndk {
+            abiFilters.addAll(listOf("armeabi-v7a", "arm64-v8a", "x86_64"))
+        }
     }
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
+            // Signing with both v1 (JAR signing) and v2 scheme for Android 6.0.1 compatibility
             signingConfig = signingConfigs.getByName("debug")
         }
     }
@@ -41,6 +51,7 @@ android {
 
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+    implementation("androidx.multidex:multidex:2.0.1")
 }
 
 kotlin {

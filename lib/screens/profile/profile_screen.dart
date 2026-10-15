@@ -346,7 +346,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      'অ্যান্ড্রয়েড এমুলেটর: http://10.0.2.2:5173\nবাস্তব মোবাইল: http://<পিসির_ওয়াইফাই_আইপি>:5173',
+                      'ডিফল্ট সার্ভার: https://gb.e-bd.shop',
                       style: GoogleFonts.hindSiliguri(fontSize: 12, color: AppTheme.inkMuted),
                     ),
                     const SizedBox(height: 10),
@@ -357,6 +357,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             controller: _baseUrlController,
                             decoration: const InputDecoration(
                               labelText: 'Base URL',
+                              hintText: 'https://gb.e-bd.shop',
                               contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                             ),
                           ),

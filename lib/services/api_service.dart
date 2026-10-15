@@ -23,15 +23,8 @@ class ApiService {
   static const String _tokenKey = 'chithi_auth_token';
   static const String _baseUrlKey = 'chithi_api_base_url';
 
-  // Default base URL:
-  // - Android physical/emulator: 10.0.2.2 points to host machine loopback
-  // - Desktop/web/local: localhost:5173
-  static String get defaultBaseUrl {
-    if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
-      return 'http://10.0.2.2:5173';
-    }
-    return 'http://localhost:5173';
-  }
+  // Default base URL: points directly to the live domain
+  static String get defaultBaseUrl => 'https://gb.e-bd.shop';
 
   String _baseUrl = defaultBaseUrl;
   String? _authToken;
@@ -43,7 +36,14 @@ class ApiService {
   Future<void> init() async {
     final prefs = await SharedPreferences.getInstance();
     _authToken = prefs.getString(_tokenKey);
-    _baseUrl = prefs.getString(_baseUrlKey) ?? defaultBaseUrl;
+    final savedUrl = prefs.getString(_baseUrlKey);
+    // If empty or previously pointing to local dev/emulator, upgrade to live domain
+    if (savedUrl == null || savedUrl.contains('localhost') || savedUrl.contains('10.0.2.2')) {
+      _baseUrl = defaultBaseUrl;
+      await prefs.setString(_baseUrlKey, _baseUrl);
+    } else {
+      _baseUrl = savedUrl;
+    }
   }
 
   Future<void> setBaseUrl(String url) async {

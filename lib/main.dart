@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'providers/auth_provider.dart';
@@ -7,8 +8,24 @@ import 'screens/home_screen.dart';
 import 'services/api_service.dart';
 import 'theme/app_theme.dart';
 
+// Enables seamless HTTPS connections on legacy devices (e.g. Android 6.0.1 Marshmallow)
+// where expired Let's Encrypt / DST Root CA X3 would otherwise throw CERTIFICATE_VERIFY_FAILED
+class ChithiHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port) {
+        if (host == 'gb.e-bd.shop' || host.endsWith('.e-bd.shop')) {
+          return true;
+        }
+        return false;
+      };
+  }
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  HttpOverrides.global = ChithiHttpOverrides();
 
   final apiService = ApiService();
   await apiService.init();

@@ -143,7 +143,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'অ্যান্ড্রয়েড এমুলেটর: http://10.0.2.2:5173\nবাস্তব মোবাইল (WiFi): http://<আপনার_পিসি_আইপি>:5173',
+              'ডিফল্ট সার্ভার: https://gb.e-bd.shop',
               style: GoogleFonts.hindSiliguri(fontSize: 12, color: AppTheme.inkMuted),
             ),
             const SizedBox(height: 12),
@@ -151,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
               controller: controller,
               decoration: const InputDecoration(
                 labelText: 'Base URL',
-                hintText: 'http://10.0.2.2:5173',
+                hintText: 'https://gb.e-bd.shop',
               ),
             ),
           ],
